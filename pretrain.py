@@ -9,7 +9,7 @@ import fire
 
 import torch
 import torch.nn as nn
-from tensorboardX import SummaryWriter
+from torch.utils.tensorboard import SummaryWriter
 
 import tokenization
 import models
@@ -17,6 +17,7 @@ import optim
 import train
 
 from utils import set_seeds, get_device, get_random_word, truncate_tokens_pair
+import crate
 
 # Input file format :
 # 1. One sentence per line. These should ideally be actual sentences,
@@ -165,7 +166,8 @@ class BertModel4Pretrain(nn.Module):
     "Bert Model for Pretrain : Masked LM and next sentence classification"
     def __init__(self, cfg):
         super().__init__()
-        self.transformer = models.Transformer(cfg)
+        # self.transformer = models.Transformer(cfg)
+        self.transformer = crate.Transformer(cfg)
         self.fc = nn.Linear(cfg.dim, cfg.dim)
         self.activ1 = nn.Tanh()
         self.linear = nn.Linear(cfg.dim, cfg.dim)
